@@ -1,4 +1,4 @@
-package lucene410
+package lucene71
 
 import (
 	"github.com/gzg1984/golucene/core/codec/lucene40"

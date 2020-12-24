@@ -10,8 +10,6 @@ import (
 	. "github.com/gzg1984/golucene/core/codec/spi"
 )
 
-// codec/lucene410/Lucene410Codec.java
-
 func init() {
 	RegisterCodec(newLucene71Codec())
 }
@@ -32,7 +30,7 @@ func newLucene71Codec() *Lucene71Codec {
 		lucene41.NewLucene41StoredFieldsFormat(),
 		lucene42.NewLucene42TermVectorsFormat(),
 		lucene46.NewLucene46FieldInfosFormat(),
-		lucene46.NewLucene46SegmentInfoFormat(),
+		lucene71.NewLucene46SegmentInfoFormat(),
 		new(lucene40.Lucene40LiveDocsFormat),
 		perfield.NewPerFieldPostingsFormat(func(field string) PostingsFormat {
 			return LoadPostingsFormat("Lucene41")

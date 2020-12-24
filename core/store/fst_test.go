@@ -2,7 +2,7 @@ package store
 
 import (
 	"fmt"
-	"github.com/balzaczyy/golucene/core/codec"
+	"github.com/gzg1984/golucene/core/codec"
 	"testing"
 )
 

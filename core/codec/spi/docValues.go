@@ -1,7 +1,7 @@
 package spi
 
 import (
-	. "github.com/balzaczyy/golucene/core/index/model"
+	. "github.com/gzg1984/golucene/core/index/model"
 	"io"
 )
 

@@ -2,7 +2,7 @@ package fst
 
 import (
 	// "fmt"
-	"github.com/balzaczyy/golucene/core/util/packed"
+	"github.com/gzg1984/golucene/core/util/packed"
 )
 
 /* Used to dedup states (lookup already-frozen states) */

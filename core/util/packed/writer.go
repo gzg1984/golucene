@@ -2,7 +2,7 @@ package packed
 
 import (
 	"errors"
-	"github.com/balzaczyy/golucene/core/codec"
+	"github.com/gzg1984/golucene/core/codec"
 )
 
 // util/packed/PackedInts.java#Writer

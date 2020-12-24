@@ -1,7 +1,7 @@
 package lucene41
 
 import (
-	"github.com/balzaczyy/golucene/core/store"
+	"github.com/gzg1984/golucene/core/store"
 )
 
 type SkipWriter struct {

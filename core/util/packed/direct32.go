@@ -3,7 +3,7 @@
 		package packed
 
 		import (
-			"github.com/balzaczyy/golucene/core/util"
+			"github.com/gzg1984/golucene/core/util"
 		)
 
 		// Direct wrapping of 32-bits values to a backing array.

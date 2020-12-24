@@ -1,9 +1,9 @@
 package search
 
 import (
-	_ "github.com/balzaczyy/golucene/core/codec/lucene42"
-	"github.com/balzaczyy/golucene/core/index"
-	"github.com/balzaczyy/golucene/core/store"
+	_ "github.com/gzg1984/golucene/core/codec/lucene42"
+	"github.com/gzg1984/golucene/core/index"
+	"github.com/gzg1984/golucene/core/store"
 	"testing"
 )
 

@@ -2,8 +2,8 @@ package test_framework
 
 import (
 	"fmt"
-	"github.com/balzaczyy/golucene/core/index"
-	"github.com/balzaczyy/golucene/core/store"
+	"github.com/gzg1984/golucene/core/index"
+	"github.com/gzg1984/golucene/core/store"
 )
 
 // store/BaseDirectoryWrapper.java

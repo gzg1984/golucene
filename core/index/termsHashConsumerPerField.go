@@ -2,11 +2,11 @@ package index
 
 import (
 	// "fmt"
-	. "github.com/balzaczyy/golucene/core/analysis/tokenattributes"
-	"github.com/balzaczyy/golucene/core/codec"
-	. "github.com/balzaczyy/golucene/core/codec/spi"
-	. "github.com/balzaczyy/golucene/core/index/model"
-	"github.com/balzaczyy/golucene/core/util"
+	. "github.com/gzg1984/golucene/core/analysis/tokenattributes"
+	"github.com/gzg1984/golucene/core/codec"
+	. "github.com/gzg1984/golucene/core/codec/spi"
+	. "github.com/gzg1984/golucene/core/index/model"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 // type TermsHashConsumerPerField interface {

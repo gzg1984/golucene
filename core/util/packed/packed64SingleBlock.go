@@ -2,7 +2,7 @@ package packed
 
 import (
 	"fmt"
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 func is64Supported(bitsPerValue int) bool {

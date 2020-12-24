@@ -3,10 +3,10 @@ package index
 import (
 	"container/list"
 	"fmt"
-	"github.com/balzaczyy/golucene/core/analysis"
-	"github.com/balzaczyy/golucene/core/index/model"
-	"github.com/balzaczyy/golucene/core/store"
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/analysis"
+	"github.com/gzg1984/golucene/core/index/model"
+	"github.com/gzg1984/golucene/core/store"
+	"github.com/gzg1984/golucene/core/util"
 	"sync"
 	"sync/atomic"
 )

@@ -3,9 +3,9 @@ package classic
 import (
 	"errors"
 	// "fmt"
-	"github.com/balzaczyy/golucene/core/analysis"
-	"github.com/balzaczyy/golucene/core/search"
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/analysis"
+	"github.com/gzg1984/golucene/core/search"
+	"github.com/gzg1984/golucene/core/util"
 	"strings"
 )
 

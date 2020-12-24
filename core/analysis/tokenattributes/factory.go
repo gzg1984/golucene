@@ -2,7 +2,7 @@ package tokenattributes
 
 import (
 	"fmt"
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 type DefaultAttributeFactory struct{}

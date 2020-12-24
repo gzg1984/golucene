@@ -1,7 +1,7 @@
 package util
 
 import (
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/util"
 	"unicode"
 )
 

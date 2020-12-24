@@ -3,7 +3,7 @@ package automaton
 import (
 	"container/list"
 	// "fmt"
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/util"
 	"unicode"
 )
 

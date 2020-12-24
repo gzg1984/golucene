@@ -1,8 +1,8 @@
 package automaton
 
 import (
-	. "github.com/balzaczyy/golucene/test_framework/util"
-	. "github.com/balzaczyy/gounit"
+	. "github.com/gzg1984/golucene/test_framework/util"
+	. "github.com/gzg1984/gounit"
 	"testing"
 )
 

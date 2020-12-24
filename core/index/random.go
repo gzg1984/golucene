@@ -1,7 +1,7 @@
 package index
 
 import (
-	. "github.com/balzaczyy/golucene/core/codec/spi"
+	. "github.com/gzg1984/golucene/core/codec/spi"
 	"math/rand"
 )
 

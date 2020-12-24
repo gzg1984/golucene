@@ -1,9 +1,9 @@
 package standard
 
 import (
-	. "github.com/balzaczyy/golucene/analysis/core"
-	. "github.com/balzaczyy/golucene/analysis/util"
-	. "github.com/balzaczyy/golucene/core/analysis"
+	. "github.com/gzg1984/golucene/analysis/core"
+	. "github.com/gzg1984/golucene/analysis/util"
+	. "github.com/gzg1984/golucene/core/analysis"
 	"io"
 )
 

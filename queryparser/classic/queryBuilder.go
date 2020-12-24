@@ -1,11 +1,11 @@
 package classic
 
 import (
-	"github.com/balzaczyy/golucene/core/analysis"
-	ta "github.com/balzaczyy/golucene/core/analysis/tokenattributes"
-	"github.com/balzaczyy/golucene/core/index"
-	"github.com/balzaczyy/golucene/core/search"
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/analysis"
+	ta "github.com/gzg1984/golucene/core/analysis/tokenattributes"
+	"github.com/gzg1984/golucene/core/index"
+	"github.com/gzg1984/golucene/core/search"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 type QueryBuilder struct {

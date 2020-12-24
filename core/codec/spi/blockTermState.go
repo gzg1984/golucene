@@ -2,7 +2,7 @@ package spi
 
 import (
 	"fmt"
-	. "github.com/balzaczyy/golucene/core/index/model"
+	. "github.com/gzg1984/golucene/core/index/model"
 	"reflect"
 )
 

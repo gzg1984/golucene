@@ -2,8 +2,8 @@ package automaton
 
 import (
 	"container/list"
-	"github.com/balzaczyy/golucene/core/util"
-	. "github.com/balzaczyy/golucene/test_framework/util"
+	"github.com/gzg1984/golucene/core/util"
+	. "github.com/gzg1984/golucene/test_framework/util"
 	// "fmt"
 	"math/rand"
 	"testing"

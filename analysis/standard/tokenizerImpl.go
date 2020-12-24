@@ -1,7 +1,7 @@
 package standard
 
 import (
-	. "github.com/balzaczyy/golucene/core/analysis/tokenattributes"
+	. "github.com/gzg1984/golucene/core/analysis/tokenattributes"
 	"io"
 )
 

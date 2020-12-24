@@ -3,7 +3,7 @@ package codec
 import (
 	"errors"
 	"fmt"
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 // codecs/CodecUtil.java

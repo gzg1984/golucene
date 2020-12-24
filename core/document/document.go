@@ -1,8 +1,8 @@
 package document
 
 import (
-	. "github.com/balzaczyy/golucene/core/codec/spi"
-	. "github.com/balzaczyy/golucene/core/index/model"
+	. "github.com/gzg1984/golucene/core/codec/spi"
+	. "github.com/gzg1984/golucene/core/index/model"
 )
 
 // document/Document.java

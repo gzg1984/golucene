@@ -1,7 +1,7 @@
 package spi
 
 import (
-	. "github.com/balzaczyy/golucene/core/codec"
+	. "github.com/gzg1984/golucene/core/codec"
 )
 
 /*

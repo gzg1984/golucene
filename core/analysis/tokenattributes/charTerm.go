@@ -1,7 +1,7 @@
 package tokenattributes
 
 import (
-	"github.com/balzaczyy/golucene/core/util"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 /* The term text of a Token. */

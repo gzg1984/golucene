@@ -3,10 +3,11 @@ package store
 import (
 	"errors"
 	"fmt"
-	"github.com/gzg1984/golucene/core/codec"
-	"github.com/gzg1984/golucene/core/util"
 	"reflect"
 	"sync"
+
+	"github.com/gzg1984/golucene/core/codec"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 // store/CompoundFileDirectory.java
@@ -229,7 +230,7 @@ func (d *CompoundFileDirectory) readEntries(handle IndexInput, dir Directory, na
 		if err != nil {
 			return nil, err
 		}
-
+		fmt.Printf("===CheckHeaderNoMagic checkversiont \n")
 		d.version, err = int32ToInt(codec.CheckHeaderNoMagic(stream, CFD_DATA_CODEC, CFD_VERSION_START, CFD_VERSION_CURRENT))
 		if err != nil {
 			return nil, err

@@ -2,13 +2,14 @@ package index
 
 import (
 	"fmt"
+	"log"
+	"sync/atomic"
+
 	"github.com/gzg1984/golucene/core/analysis"
 	. "github.com/gzg1984/golucene/core/codec/spi"
 	. "github.com/gzg1984/golucene/core/index/model"
 	"github.com/gzg1984/golucene/core/store"
 	"github.com/gzg1984/golucene/core/util"
-	"log"
-	"sync/atomic"
 )
 
 // index/DocumentsWriterPerThread.java
@@ -297,6 +298,9 @@ func (dwpt *DocumentsWriterPerThread) prepareFlush() *FrozenBufferedUpdates {
 
 /* Flush all pending docs to a new segment */
 func (dwpt *DocumentsWriterPerThread) flush() (fs *FlushedSegment, err error) {
+
+	fmt.Printf("=====Enter DocumentsWriterPerThread.flush \n")
+
 	assert(dwpt.numDocsInRAM > 0)
 	assert2(dwpt.deleteSlice.isEmpty(), "all deletes must be applied in prepareFlush")
 	dwpt.segmentInfo.SetDocCount(dwpt.numDocsInRAM)
@@ -339,6 +343,7 @@ func (dwpt *DocumentsWriterPerThread) flush() (fs *FlushedSegment, err error) {
 		}
 	}()
 
+	fmt.Printf("=====Before  dwpt.consumer.flush\n")
 	err = dwpt.consumer.flush(flushState)
 	if err != nil {
 		return nil, err
@@ -350,6 +355,7 @@ func (dwpt *DocumentsWriterPerThread) flush() (fs *FlushedSegment, err error) {
 	})
 	dwpt.segmentInfo.SetFiles(files)
 
+	fmt.Printf("=====Before  NewSegmentCommitInfo\n")
 	info := NewSegmentCommitInfo(dwpt.segmentInfo, 0, -1, -1, -1)
 	if dwpt.infoStream.IsEnabled("DWPT") {
 		dwpt.infoStream.Message("DWPT", "new segment has %v deleted docs",
@@ -381,16 +387,24 @@ func (dwpt *DocumentsWriterPerThread) flush() (fs *FlushedSegment, err error) {
 			dwpt.segmentInfo.Name, startMBUsed, newSegmentSize,
 			float64(flushState.SegmentInfo.DocCount())/newSegmentSize)
 	}
+	fmt.Printf("=====Before  assert segmentInfo\n")
 
 	assert(dwpt.segmentInfo != nil)
 
+	fmt.Printf("=====Before  newFlushedSegment\n")
+
 	fs = newFlushedSegment(info, flushState.FieldInfos, segmentUpdates,
 		flushState.LiveDocs, flushState.DelCountOnFlush)
+
+	fmt.Printf("=====Before  dwpt.sealFlushedSegment\n")
+
 	err = dwpt.sealFlushedSegment(fs)
 	if err != nil {
+		fmt.Printf("=====After  dwpt.sealFlushedSegment err:%v\n", err)
 		return nil, err
 	}
 	success = true
+	fmt.Printf("=====Before  DocumentsWriterPerThread flush quit\n")
 
 	return fs, nil
 }
@@ -407,6 +421,8 @@ Seals the SegmentInfo for the new flushed segment and persists the
 deleted documents MutableBits
 */
 func (dwpt *DocumentsWriterPerThread) sealFlushedSegment(flushedSegment *FlushedSegment) error {
+	fmt.Printf("=====Enter  DocumentsWriterPerThread  sealFlushedSegment\n")
+
 	assert(flushedSegment != nil)
 
 	newSegment := flushedSegment.segmentInfo
@@ -417,6 +433,9 @@ func (dwpt *DocumentsWriterPerThread) sealFlushedSegment(flushedSegment *Flushed
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("=====Before  store.NewIOContextForFlush\n")
+
 	context := store.NewIOContextForFlush(&store.FlushInfo{
 		newSegment.Info.DocCount(),
 		segSize,
@@ -432,12 +451,15 @@ func (dwpt *DocumentsWriterPerThread) sealFlushedSegment(flushedSegment *Flushed
 			}
 		}
 	}()
+	fmt.Printf("=====Before  dwpt.indexWriterConfig.UseCompoundFile\n")
 
 	if dwpt.indexWriterConfig.UseCompoundFile() {
 		files, err := createCompoundFile(
 			dwpt.infoStream, dwpt.directory,
 			CheckAbortNone(0), newSegment.Info, context)
 		if err != nil {
+			fmt.Printf("=====After  createCompoundFile err:%v\n", err)
+
 			return err
 		}
 		for _, file := range files {
@@ -449,12 +471,14 @@ func (dwpt *DocumentsWriterPerThread) sealFlushedSegment(flushedSegment *Flushed
 	// Have codec write SegmentInfo. Must do this after creating CFS so
 	// that 1) .si isn't slurped into CFS, and 2) .si reflects
 	// useCompoundFile=true change above:
+	fmt.Printf("=====Before  SegmentInfoWriter().Write \n")
 	err = dwpt.codec.SegmentInfoFormat().SegmentInfoWriter().Write(
 		dwpt.directory,
 		newSegment.Info,
 		flushedSegment.fieldInfos,
 		context)
 	if err != nil {
+		fmt.Printf("=====After  SegmentInfoWriter().Write err:%v\n", err)
 		return err
 	}
 

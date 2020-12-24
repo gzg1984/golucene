@@ -34,6 +34,8 @@ func (f *Lucene46SegmentInfoFormat) SegmentInfoReader() SegmentInfoReader {
 }
 
 func (f *Lucene46SegmentInfoFormat) SegmentInfoWriter() SegmentInfoWriter {
+	fmt.Printf("=====Get  Lucene46SegmentInfoFormat SegmentInfoWriter for 7.1\n")
+
 	return f
 }
 
@@ -41,6 +43,7 @@ func (f *Lucene46SegmentInfoFormat) SegmentInfoWriter() SegmentInfoWriter {
 
 func (f *Lucene46SegmentInfoFormat) Read(dir store.Directory,
 	segName string, ctx store.IOContext) (si *SegmentInfo, err error) {
+	fmt.Printf("=====Enter Lucene46SegmentInfoFormat Read\n")
 
 	filename := util.SegmentFileName(segName, "", SI_EXTENSION)
 	var input store.ChecksumIndexInput
@@ -115,6 +118,8 @@ func asInt(n int32, err error) (int, error) {
 }
 
 func (f *Lucene46SegmentInfoFormat) Write(dir store.Directory, si *SegmentInfo, fis FieldInfos, ctx store.IOContext) error {
+	fmt.Printf("=====Enter Lucene46SegmentInfoFormat Write in 7.1\n")
+
 	filename := util.SegmentFileName(si.Name, "", SI_EXTENSION)
 	si.AddFile(filename)
 
@@ -135,8 +140,8 @@ func (f *Lucene46SegmentInfoFormat) Write(dir store.Directory, si *SegmentInfo, 
 
 	if err = codec.WriteHeader(output, SI_CODEC_NAME, SI_VERSION_CURRENT); err == nil {
 		version := si.Version()
-		assert2(version[0] == 3 || version[0] == 4,
-			"invalid major version: should be 3 or 4 but got: %v", version[0])
+		//assert2(version[0] == 3 || version[0] == 4,
+		//	"invalid major version: should be 3 or 4 but got: %v", version[0])
 		// write the Lucene version that created this segment, since 3.1
 		if err = output.WriteString(version.String()); err == nil {
 			if err = output.WriteInt(int32(si.DocCount())); err == nil {

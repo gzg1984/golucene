@@ -3,12 +3,13 @@ package index
 import (
 	"container/list"
 	"fmt"
+	"sync"
+	"sync/atomic"
+
 	"github.com/gzg1984/golucene/core/analysis"
 	"github.com/gzg1984/golucene/core/index/model"
 	"github.com/gzg1984/golucene/core/store"
 	"github.com/gzg1984/golucene/core/util"
-	"sync"
-	"sync/atomic"
 )
 
 // index/DocumentsWriter.java
@@ -338,6 +339,9 @@ func (dw *DocumentsWriter) updateDocument(doc []model.IndexableField,
 }
 
 func (dw *DocumentsWriter) doFlush(flushingDWPT *DocumentsWriterPerThread) (bool, error) {
+
+	fmt.Printf("=====Enter DocumentsWriter doFlush\n")
+
 	var hasEvents = false
 	for flushingDWPT != nil {
 		hasEvents = true
@@ -383,6 +387,7 @@ func (dw *DocumentsWriter) doFlush(flushingDWPT *DocumentsWriterPerThread) (bool
 						dw.ticketQueue.markTicketFailed(ticket)
 					}
 				}()
+				fmt.Printf("=====Before dw.ticketQueue.addFlushTicket\n")
 
 				// Each flush is assigned a ticket in the order they acquire the ticketQueue lock
 				ticket = dw.ticketQueue.addFlushTicket(flushingDWPT)
@@ -403,15 +408,19 @@ func (dw *DocumentsWriter) doFlush(flushingDWPT *DocumentsWriterPerThread) (bool
 					}()
 
 					// flush concurrently without locking
+					fmt.Printf("=====Before flushingDWPT.flush\n")
 					newSegment, err := flushingDWPT.flush()
 					if err != nil {
+						fmt.Printf("=====flushingDWPT.flush err:%v\n", err)
 						return err
 					}
+					fmt.Printf("=====Before dw.ticketQueue.addSegment\n")
 					dw.ticketQueue.addSegment(ticket, newSegment)
 					dwptSuccess = true
 					return nil
 				}()
 				if err != nil {
+					fmt.Printf("=====subtractFlushedNumDocs err:%v    \n", err)
 					return err
 				}
 				// flush was successful once we reached this point - new seg.
@@ -434,11 +443,13 @@ func (dw *DocumentsWriter) doFlush(flushingDWPT *DocumentsWriterPerThread) (bool
 			return false, nil
 		}()
 		if err != nil {
+			fmt.Printf("=====SegmentFlushTicket err:%v \n", err)
 			return false, err
 		}
 		if stop {
 			break
 		}
+		fmt.Printf("=====before dw.flushControl.nextPending\n")
 
 		flushingDWPT = dw.flushControl.nextPendingFlush()
 	}
@@ -483,6 +494,8 @@ that finishFLush is called after this method, to release the flush
 lock in DWFlushControl
 */
 func (dw *DocumentsWriter) flushAllThreads(indexWriter *IndexWriter) (bool, error) {
+	fmt.Printf("=====Enter flushAllThreads \n")
+
 	if dw.infoStream.IsEnabled("DW") {
 		dw.infoStream.Message("DW", "startFullFlush")
 	}
@@ -505,11 +518,14 @@ func (dw *DocumentsWriter) flushAllThreads(indexWriter *IndexWriter) (bool, erro
 	return func() (bool, error) {
 		anythingFlushed := false
 		defer func() { assert(flushingDeleteQueue == dw.currentFullFlushDelQueue) }()
+		fmt.Printf("=====Before  nextPendingFlush \n")
 
 		flushingDWPT := dw.flushControl.nextPendingFlush()
 		for flushingDWPT != nil {
+			fmt.Printf("=====Before  dw.doFlush \n")
 			flushed, err := dw.doFlush(flushingDWPT)
 			if err != nil {
+				fmt.Printf("=====dw.doFlush err : %v \n", err)
 				return false, err
 			}
 			if flushed {
@@ -529,14 +545,17 @@ func (dw *DocumentsWriter) flushAllThreads(indexWriter *IndexWriter) (bool, erro
 			}
 			err := dw.ticketQueue.addDeletes(flushingDeleteQueue)
 			if err != nil {
+				fmt.Printf("=====addDeletes err : %v \n", err)
 				return false, err
 			}
 		}
 		_, err := dw.ticketQueue.forcePurge(indexWriter)
 		if err != nil {
+			fmt.Printf("=====forcePurge err : %v \n", err)
 			return false, err
 		}
 		assert(!flushingDeleteQueue.anyChanges() && !dw.ticketQueue.hasTickets())
+		fmt.Printf("=====before anythingFlushed \n")
 		return anythingFlushed, nil
 	}()
 }

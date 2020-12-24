@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	std "github.com/gzg1984/golucene/analysis/standard"
-	_ "github.com/gzg1984/golucene/core/codec/lucene410"
-	"github.com/gzg1984/golucene/core/document"
+	//_ "github.com/gzg1984/golucene/core/codec/lucene410"
+	_ "github.com/gzg1984/golucene/core/codec/lucene71"
+
 	"github.com/gzg1984/golucene/core/index"
 	"github.com/gzg1984/golucene/core/search"
 	"github.com/gzg1984/golucene/core/store"
@@ -15,20 +15,24 @@ import (
 
 func main() {
 	util.SetDefaultInfoStream(util.NewPrintStreamInfoStream(os.Stdout))
+	//util.SetDefaultInfoStream(util.NO_OUTPUT)
 	index.DefaultSimilarity = func() index.Similarity {
 		return search.NewDefaultSimilarity()
 	}
 
-	directory, _ := store.OpenFSDirectory("test_index")
-	analyzer := std.NewStandardAnalyzer()
-	conf := index.NewIndexWriterConfig(util.VERSION_LATEST, analyzer)
-	writer, _ := index.NewIndexWriter(directory, conf)
+	//directory, _ := store.OpenFSDirectory("test_index")
+	directory, _ := store.OpenFSDirectory("/opt/file_root/index_base/spdk_v17_10_1/")
+	/*
+		analyzer := std.NewStandardAnalyzer()
+		conf := index.NewIndexWriterConfig(util.VERSION_LATEST, analyzer)
+		//conf := index.NewIndexWriterConfig(util.VERSION_4_10_1, analyzer)
+		writer, _ := index.NewIndexWriter(directory, conf)
 
-	d := document.NewDocument()
-	d.Add(document.NewTextFieldFromString("foo", "bar", document.STORE_YES))
-	writer.AddDocument(d.Fields())
-	writer.Close() // ensure index is written
-
+		d := document.NewDocument()
+		d.Add(document.NewTextFieldFromString("foo", "bar", document.STORE_YES))
+		writer.AddDocument(d.Fields())
+		writer.Close() // ensure index is written
+	*/
 	reader, _ := index.OpenDirectoryReader(directory)
 	searcher := search.NewIndexSearcher(reader)
 

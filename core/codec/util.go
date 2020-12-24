@@ -82,6 +82,7 @@ func CheckHeader(in DataInput, codec string, minVersion, maxVersion int32) (v in
 			"codec header mismatch: actual header=%v vs expected header=%v (resource: %v)",
 			actualHeader, CODEC_MAGIC, in))
 	}
+	fmt.Printf("===CheckHeader CheckHeaderNoMagic\n")
 	return CheckHeaderNoMagic(in, codec, minVersion, maxVersion)
 }
 
@@ -102,6 +103,7 @@ func CheckHeaderNoMagic(in DataInput, codec string, minVersion, maxVersion int32
 	if actualVersion < minVersion {
 		return 0, NewIndexFormatTooOldError(in, actualVersion, minVersion, maxVersion)
 	}
+	fmt.Printf("===Trying NewIndexFormatTooNewError\n")
 	if actualVersion > maxVersion {
 		return 0, NewIndexFormatTooNewError(in, actualVersion, minVersion, maxVersion)
 	}

@@ -24,3 +24,7 @@ _testmain.go
 *.sublime-project
 *.sublime-workspace
 *.iml
+
+golucene
+test_index
+

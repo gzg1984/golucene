@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/gzg1984/golucene/core/codec"
 	. "github.com/gzg1984/golucene/core/codec/spi"
 	. "github.com/gzg1984/golucene/core/index/model"
 	"github.com/gzg1984/golucene/core/store"
 	"github.com/gzg1984/golucene/core/util"
-	"strconv"
-	"strings"
 )
 
 /* Prints the given message to the infoStream. */
@@ -425,7 +426,12 @@ func (sis *SegmentInfos) Read(directory store.Directory, segmentFileName string)
 	var actualFormat int
 	if format == codec.CODEC_MAGIC {
 		// 4.0+
+		fmt.Printf("===Read CheckHeaderNoMagic skip\n")
+		/*
 		if actualFormat, err = asInt(codec.CheckHeaderNoMagic(input, "segments", VERSION_40, VERSION_49)); err != nil {
+			return
+		}*/
+		if actualFormat, err = asInt(codec.CheckHeaderNoMagic(input, "segments", VERSION_40, 7)); err != nil {
 			return
 		}
 		if sis.version, err = input.ReadLong(); err != nil {
@@ -451,6 +457,8 @@ func (sis *SegmentInfos) Read(directory store.Directory, segmentFileName string)
 			if codecName, err = input.ReadString(); err != nil {
 				return
 			}
+			fmt.Printf("===Before  LoadCodec codecName is %v\n",codecName)
+
 			fCodec = LoadCodec(codecName)
 			assert2(fCodec != nil, "Invalid codec name: %v", codecName)
 			// fmt.Printf("SIS.read seg=%v codec=%v\n", seg, fCodec)

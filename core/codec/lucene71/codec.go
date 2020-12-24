@@ -30,7 +30,7 @@ func newLucene71Codec() *Lucene71Codec {
 		lucene41.NewLucene41StoredFieldsFormat(),
 		lucene42.NewLucene42TermVectorsFormat(),
 		lucene46.NewLucene46FieldInfosFormat(),
-		lucene71.NewLucene46SegmentInfoFormat(),
+		NewLucene46SegmentInfoFormat(),
 		new(lucene40.Lucene40LiveDocsFormat),
 		perfield.NewPerFieldPostingsFormat(func(field string) PostingsFormat {
 			return LoadPostingsFormat("Lucene41")

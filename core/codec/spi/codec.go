@@ -2,6 +2,7 @@ package spi
 
 import (
 	"fmt"
+
 	. "github.com/gzg1984/golucene/core/index/model"
 	"github.com/gzg1984/golucene/core/store"
 	"github.com/gzg1984/golucene/core/util"
@@ -142,7 +143,8 @@ func AvailableCodecs() []string {
 
 // Expert: returns the default codec used for newly created IndexWriterConfig(s).
 var DefaultCodec = func() Codec {
-	ans := LoadCodec("Lucene410")
+	//ans := LoadCodec("Lucene410")
+	ans := LoadCodec("Lucene71")
 	assert(ans != nil)
 	return ans
 }

@@ -4,11 +4,6 @@ import (
 	"container/list"
 	"errors"
 	"fmt"
-	"github.com/gzg1984/golucene/core/analysis"
-	. "github.com/gzg1984/golucene/core/codec/spi"
-	. "github.com/gzg1984/golucene/core/index/model"
-	"github.com/gzg1984/golucene/core/store"
-	"github.com/gzg1984/golucene/core/util"
 	"log"
 	"math"
 	"os"
@@ -18,6 +13,12 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/gzg1984/golucene/core/analysis"
+	. "github.com/gzg1984/golucene/core/codec/spi"
+	. "github.com/gzg1984/golucene/core/index/model"
+	"github.com/gzg1984/golucene/core/store"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 // index/IndexCommit.java
@@ -1287,6 +1288,7 @@ func (w *IndexWriter) flush(triggerMerge bool, applyAllDeletes bool) error {
 }
 
 func (w *IndexWriter) doFlush(applyAllDeletes bool) (bool, error) {
+	fmt.Printf("=====Enter doFlush\n")
 	assert2(w.tragedy == nil, "this writer hit an unrecoverable error; cannot flush\n%v", w.tragedy)
 
 	err := w.doBeforeFlush()
@@ -1298,16 +1300,21 @@ func (w *IndexWriter) doFlush(applyAllDeletes bool) (bool, error) {
 	}
 
 	success := false
+	fmt.Printf("=====doFlush Before Set Defer\n")
+
 	defer func() {
 		if !success && w.infoStream.IsEnabled("IW") {
 			w.infoStream.Message("IW", "hit error during flush")
 		}
 	}()
+	fmt.Printf("=====doFlush After Set Defer\n")
 
 	if w.infoStream.IsEnabled("IW") {
 		w.infoStream.Message("IW", "  start flush: applyAllDeletes=%v", applyAllDeletes)
 		w.infoStream.Message("IW", "  index before flush %v", w.segString())
 	}
+
+	fmt.Printf("=====doFlush before anySegmentFlushed\n")
 
 	anySegmentFlushed, err := func() (ok bool, err error) {
 		w.fullFlushLock.Lock()
@@ -1318,15 +1325,23 @@ func (w *IndexWriter) doFlush(applyAllDeletes bool) (bool, error) {
 			w.docWriter.finishFullFlush(flushSuccess)
 			w.docWriter.processEvents(w, false, true)
 		}()
+		fmt.Printf("=====doFlush before flushAllThreads\n")
 
 		if ok, err = w.docWriter.flushAllThreads(w); err == nil {
 			flushSuccess = true
 		}
+		fmt.Printf("=====doFlush after flushAllThreads\n")
+
 		return
 	}()
+	fmt.Printf("=====doFlush after anySegmentFlushed\n")
+
 	if err != nil {
+		fmt.Printf("=====doFlush finishFullFlush err:%v\n", err)
 		return false, err
 	}
+
+	fmt.Printf("=====doFlush before _maybeApplyDeletes\n")
 
 	err = func() error {
 		w.Lock()
@@ -1346,8 +1361,11 @@ func (w *IndexWriter) doFlush(applyAllDeletes bool) (bool, error) {
 		return nil
 	}()
 	if err != nil {
+		fmt.Printf("=====doFlush _maybeApplyDeletes err:%v\n", err)
 		return false, err
 	}
+
+	fmt.Printf("=====doFlush before success\n")
 
 	success = true
 	return anySegmentFlushed, nil

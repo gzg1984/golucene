@@ -23,7 +23,9 @@ var (
 	VERSION_4_10   = Version([4]int{4, 10, 0, 0})
 	VERSION_4_10_1 = Version([4]int{4, 10, 1, 0})
 
-	VERSION_LATEST = VERSION_4_10_1
+	VERSION_7_1_0 = Version([4]int{7, 1, 0, 0})
+
+	VERSION_LATEST = VERSION_7_1_0
 )
 
 /*

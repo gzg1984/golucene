@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	std "github.com/balzaczyy/golucene/analysis/standard"
-	_ "github.com/balzaczyy/golucene/core/codec/lucene410"
-	"github.com/balzaczyy/golucene/core/document"
-	"github.com/balzaczyy/golucene/core/index"
-	"github.com/balzaczyy/golucene/core/search"
-	"github.com/balzaczyy/golucene/core/store"
-	"github.com/balzaczyy/golucene/core/util"
 	"os"
+
+	std "github.com/gzg1984/golucene/analysis/standard"
+	_ "github.com/gzg1984/golucene/core/codec/lucene410"
+	"github.com/gzg1984/golucene/core/document"
+	"github.com/gzg1984/golucene/core/index"
+	"github.com/gzg1984/golucene/core/search"
+	"github.com/gzg1984/golucene/core/store"
+	"github.com/gzg1984/golucene/core/util"
 )
 
 func main() {
